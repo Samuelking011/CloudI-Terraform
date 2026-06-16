@@ -1,0 +1,18 @@
+name: Hello Automation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say hello
+        run: echo "Hello from GitHub Actions"
+
+      - name: Show current directory
+        run: pwd
+
+      - name: List files
+        run: ls -la
