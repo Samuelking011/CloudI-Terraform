@@ -25,5 +25,8 @@ jobs:
     - name: Validate terraform configuration
       run: terraform validate
 
-    - name: Generate Terraform plan
-      run: terraform plan -no-color
+    - name: Create Terraform plan file
+      run: terraform plan -out=tfplan
+
+    - name: Convert plan to readable text
+      run: terraform show -no-color tfplan > tfplan.txt
