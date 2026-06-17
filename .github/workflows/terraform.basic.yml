@@ -24,4 +24,6 @@ jobs:
 
     - name: Validate terraform configuration
       run: terraform validate
- 
+
+    - name: Generate Terraform plan
+      run: terraform plan -no-color
