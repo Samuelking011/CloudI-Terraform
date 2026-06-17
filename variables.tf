@@ -19,6 +19,5 @@ variable "replicas" {
 variable "app_api_key" {
   description = "Demo API key passed from GitHub Actions secrets"
   type        = string
-  default     = "1234567"
   sensitive   = true
 }
