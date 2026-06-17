@@ -25,7 +25,7 @@ jobs:
             - name: Confirm secret is available safely
               run: |
                 if [ -z "$TF_VAR_app_api_key" ]; then
-                  echo " secretAPP_API_KEY is missing."
+                  echo " secret APP_API_KEY is missing."
                   exit 1
                 fi
 
