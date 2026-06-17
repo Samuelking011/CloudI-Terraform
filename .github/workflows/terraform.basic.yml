@@ -5,9 +5,15 @@ on:
       branches:
         - main
 
+permissions:
+  contents: read
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
+
+    env:
+      TF_VAR_app_api_key: ${{ secrets.APP_API_KEY }}
 
     steps:
     - name: Checkout code
@@ -15,6 +21,16 @@ jobs:
 
     - name: setup Terraform
       uses: hashicorp/setup-terraform@v3
+
+    - name: Confirm secret is available safely
+      run: |
+        if [ -z "$TF_VAR_app_api_key" ]; then
+          echo "APP_API_KEY secret is missing."
+          exit 1
+        fi
+
+        echo "APP_API_KEY secret is configured."
+        echo "Secret length: ${#TF_VAR_app_api_key}"
 
     - name: Check Terraform formatting
       run: terraform fmt -check -recursive
