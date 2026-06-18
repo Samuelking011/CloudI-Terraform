@@ -59,7 +59,7 @@ jobs:
 
                 echo ""
                 echo "Generated Kubernetes deployment manifest: "
-                cat genrated/test-app-deployment.yaml
+                cat generated/test-app-deployment.yaml
 
             - name: Upload Terraform apply artifact
               uses: actions/upload-artifact@v4
