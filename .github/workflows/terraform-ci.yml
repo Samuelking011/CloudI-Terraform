@@ -1,0 +1,54 @@
+name: Terraform CI
+
+on: 
+    pull_request:
+        branches:
+            - main
+
+permissions:
+    contents: read
+
+jobs:
+    terraform-ci:
+        runs-on: ubuntu-latest
+
+        env: 
+          TF_VAR_app_api_key: ${{ secrets.APP_API_KEY }}
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+
+            - name: Confirm secret is available safely
+              run: |
+                if [ -z "$TF_VAR_app_api_key" ]; then
+                  echo " secret APP_API_KEY is missing."
+                  exit 1
+                fi
+
+                echo "APP_API_KEY secret is configured."
+
+            - name: Check Terraform formatting
+              run: terraform fmt -check -recursive
+
+            - name: intitialize Terraform
+              run: terraform init
+
+            - name: Validate terraform configuration
+              run: terraform validate
+
+            - name: Generate Terraform plan
+              run: terraform plan -out=tfplan
+
+            - name: Convert plan to readable text
+              run: terraform show -no-color tfplan > tfplan.txt
+
+            - name: Upload Terraform plan artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: terraform-plan
+                path: tfplan.txt
+
